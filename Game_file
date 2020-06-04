@@ -1,0 +1,97 @@
+from tkinter import*
+from os import*
+from sys import*
+
+#Game based on https://www.youtube.com/watch?v=qMFpOcLroOg
+
+class Tower:
+    global n, c
+    n=25 #the "floor" of the tower on which the user is currently on 
+    c=1 #the counter used for the turn-based mechanic
+    
+    def __init__(self, root):
+        global n,c
+        #The buttons with which the user plays the game, clicking a button moves the user that amount of levels down during his turn
+        self.button1 = Button(root, text='1', font=14, padx=50, pady=25, bg='spring green', fg='black', command=self.but1).place(x=860,y=70)
+        self.button3 = Button(root, text='3', font=14, padx=50, pady=25, bg='spring green', fg='black', command=self.but3).place(x=860,y=150)
+        self.button4 = Button(root, text='4', font=14, padx=50, pady=25, bg='spring green', fg='black', command=self.but4).place(x=860,y=230)
+        
+    def but1(self):
+        global n, c
+        n-=1
+        c+=1
+        print(n,c)
+        return c
+    
+    def but3(self):
+        global n, c
+        n-=1
+        c+=1
+        print(n,c)
+        return c
+    
+    def but4(self):
+        global n, c
+        n-=4
+        c+=1
+        print(n,c)
+        return c
+
+#Graphic design of the game 
+root = Tk()
+w = Canvas(root, width=1080, height=860)
+w.pack()
+
+w.configure(bg='bisque')
+w.create_rectangle(0,800,1080,860, fill='light slate blue')
+w.create_line(200,800,830,800, fill='red4', width=5)
+w. create_line(300,800,300,176, fill='red4', width=3)
+w. create_line(730,800,730,176, fill='red4', width=3)
+w.create_polygon(300,800,300,176,200,800, fill='red4', width=3)
+w.create_polygon(730,800,730,176,830,800, fill='red4', width=3)
+
+#declaring all the rectangles, which serve as "floors of the tower" as variables because as the game goes on their colours will change once passed
+r0=r1=r2=r3=r4=r5=r6=r7=r8=r9=r10=r11=r12=r13=r14=r15=r16=r17=r18=r19=r20=r21=r22=r23=r24=r25=None
+rec=[r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,r15,r16,r17,r18,r19,r20,r21,r22,r23,r24,r25]
+for i in range(26):
+    rec[i]=w.create_rectangle(300,800-24*i,730,776-24*i, fill='royal blue')
+    w.create_text(515, 788-24*i, text=i, fill='white')
+
+t=Tower(root)
+root.mainloop()
+
+#Main game function (part which doesn't currently work)
+def game(n,c):
+    #This for loop should recolour all the passed floors from blue into green, not sure if it works
+    for j in range(n, 26, -1):
+        w.itemconfig(rec[j], fill='green')
+    #If the counter gives remainder 1 mod 2 then it's the users turn - this loop should wait for the user to press a button, but I don't know if it will wait for all 3 inputs or just 1
+    #It displays the error: AttributeError: 'NoneType' object has no attribute 'wait_variable' and I don't know how to resolve it
+    if c%2==1:
+        button_1=t.button1
+        button_1.wait_variable(c)
+        button_3=t.button1
+        button_3.wait_variable(c)
+        button_4=t.button1
+        button_4.wait_variable(c)
+    #The computers turn - still haven't gotten to the point where this runs, stuck on the segment above
+    if c%2==0:
+        if (n%7==0) or (n%7==1) or (n%7==2):
+            n-=1
+        elif n%7==3:
+            n-=3
+        elif (n%7==4) or (n%7==5) or (n%7==6):
+            n-=4
+    c+=1
+    print(n,c)
+    game(n,c)
+#A while loop that should keep the game running as long as n>0, should stop once n reaches 0           
+while n:
+    game(n,c)
+    
+if n==0:
+    root.destroy() #Closes (or should) the tk graphic window and prints out the message into the terminal
+    if c%2==1:
+        print('Congratulations you won!')
+    elif c%2==0:
+        print('You lost.')
