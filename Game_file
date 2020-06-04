@@ -12,9 +12,12 @@ class Tower:
     def __init__(self, root):
         global n,c
         #The buttons with which the user plays the game, clicking a button moves the user that amount of levels down during his turn
-        self.button1 = Button(root, text='1', font=14, padx=50, pady=25, bg='spring green', fg='black', command=self.but1).place(x=860,y=70)
-        self.button3 = Button(root, text='3', font=14, padx=50, pady=25, bg='spring green', fg='black', command=self.but3).place(x=860,y=150)
-        self.button4 = Button(root, text='4', font=14, padx=50, pady=25, bg='spring green', fg='black', command=self.but4).place(x=860,y=230)
+        self.button1 = Button(root, text='1', font=14, padx=50, pady=25, bg='spring green', fg='black', command=self.but1)
+        self.button3 = Button(root, text='3', font=14, padx=50, pady=25, bg='spring green', fg='black', command=self.but3)
+        self.button4 = Button(root, text='4', font=14, padx=50, pady=25, bg='spring green', fg='black', command=self.but4)
+        self.button1.place(x=860,y=70)
+        self.button3.place(x=860,y=150)
+        self.button4.place(x=860,y=230)
         
     def but1(self):
         global n, c
@@ -66,7 +69,7 @@ def game(n,c):
     for j in range(n, 26, -1):
         w.itemconfig(rec[j], fill='green')
     #If the counter gives remainder 1 mod 2 then it's the users turn - this loop should wait for the user to press a button, but I don't know if it will wait for all 3 inputs or just 1
-    #It displays the error: AttributeError: 'NoneType' object has no attribute 'wait_variable' and I don't know how to resolve it
+    #It displays the error: _tkinter.TclError: can't invoke "tkwait" command: application has been destroyed
     if c%2==1:
         button_1=t.button1
         button_1.wait_variable(c)
