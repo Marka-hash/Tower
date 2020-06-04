@@ -61,7 +61,6 @@ for i in range(26):
     w.create_text(515, 788-24*i, text=i, fill='white')
 
 t=Tower(root)
-root.mainloop()
 
 #Main game function (part which doesn't currently work)
 def game(n,c):
@@ -69,7 +68,6 @@ def game(n,c):
     for j in range(n, 26, -1):
         w.itemconfig(rec[j], fill='green')
     #If the counter gives remainder 1 mod 2 then it's the users turn - this loop should wait for the user to press a button, but I don't know if it will wait for all 3 inputs or just 1
-    #It displays the error: _tkinter.TclError: can't invoke "tkwait" command: application has been destroyed
     if c%2==1:
         button_1=t.button1
         button_1.wait_variable(c)
@@ -98,3 +96,4 @@ if n==0:
         print('Congratulations you won!')
     elif c%2==0:
         print('You lost.')
+root.mainloop()
